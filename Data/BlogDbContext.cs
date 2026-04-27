@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Models.Domain;
 
-namespace Data
+namespace EchoBlog.Data
 {
     public class BlogDbContext(DbContextOptions<BlogDbContext> options) : DbContext(options)
     {
