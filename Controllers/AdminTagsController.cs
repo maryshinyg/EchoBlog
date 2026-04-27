@@ -1,9 +1,10 @@
 using Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore;
 using Models.Domain;
 using Models.ViewModel;
+using System.Linq;
 
 namespace EchoBlog.Controllers
 {
@@ -22,29 +23,29 @@ namespace EchoBlog.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(AddTagRequest request)
+        public async Task<IActionResult> Add(AddTagRequest request)
         {
             var newTag = new Tag
             {
                 Name = request.Name,
                 DisplayName = request.DisplayName
             };
-            _blogDbContext.Tags.Add(newTag);
-            _blogDbContext.SaveChanges();
+            await _blogDbContext.Tags.AddAsync(newTag);
+            await _blogDbContext.SaveChangesAsync();
             return RedirectToAction("List");
         }
 
         [HttpGet]
-        public IActionResult List()
+        public async Task<IActionResult> List()
         {
-            var list = _blogDbContext.Tags.ToList();
+            var list = await _blogDbContext.Tags.ToListAsync();
             return View(list);
         }
 
         [HttpGet]
-        public IActionResult Edit(Guid id)
+        public async Task<IActionResult> Edit(Guid id)
         {
-            var tag = _blogDbContext.Tags.FirstOrDefault(x => x.Id == id);
+            var tag = await _blogDbContext.Tags.FirstOrDefaultAsync(x => x.Id == id);
             if(tag != null)
             {
                 var editTagRequest = new EditTagRequest
@@ -59,7 +60,7 @@ namespace EchoBlog.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(EditTagRequest request)
+        public async Task<IActionResult> Edit(EditTagRequest request)
         {
             var Tag = new Tag
             {
@@ -67,25 +68,25 @@ namespace EchoBlog.Controllers
                 Name = request.Name,
                 DisplayName = request.DisplayName
             };
-            var existingTag = _blogDbContext.Tags.FirstOrDefault(x => x.Id == request.Id);
+            var existingTag = await _blogDbContext.Tags.FirstOrDefaultAsync(x => x.Id == request.Id);
             if(existingTag != null)
             {
                 existingTag.Name = Tag.Name;
                 existingTag.DisplayName = Tag.DisplayName;
-                _blogDbContext.SaveChanges();
-                return RedirectToAction("Edit", new { id = request.Id });
+                await _blogDbContext.SaveChangesAsync();
+                return RedirectToAction("List"); //"Edit", new { id = request.Id }
             }
             return RedirectToAction("Edit", new { id = request.Id });
         }
 
         [HttpPost]
-        public IActionResult Delete(EditTagRequest request)
+        public async Task<IActionResult> Delete(EditTagRequest request)
         {
-            var existingTag = _blogDbContext.Tags.FirstOrDefault(x => x.Id == request.Id);
+            var existingTag = await _blogDbContext.Tags.FirstOrDefaultAsync(x => x.Id == request.Id);
             if(existingTag != null)
             {
                 _blogDbContext.Tags.Remove(existingTag);
-                _blogDbContext.SaveChanges();
+                await _blogDbContext.SaveChangesAsync();
                 return RedirectToAction("List");
             }
             return RedirectToAction("Edit", new { id = request.Id });
