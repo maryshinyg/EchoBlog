@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.EntityFrameworkCore;
 using Models.Domain;
-using Models.ViewModel;
+using Models.ViewModels;
 using System.Linq;
 
 namespace EchoBlog.Controllers
@@ -71,7 +71,7 @@ namespace EchoBlog.Controllers
             var updatedTag = await _tagRepository.UpdateAsync(Tag);
             if(updatedTag != null)
             {
-                // Tag updated successfully
+                return RedirectToAction("List");
             }
             else
             {

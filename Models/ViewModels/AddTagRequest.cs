@@ -1,4 +1,4 @@
-namespace Models.ViewModel
+namespace Models.ViewModels
 {
     public class AddTagRequest
     {
