@@ -33,7 +33,7 @@ namespace EchoBlog.Repositories
 
         public async Task<IEnumerable<BlogPost>> GetAllAsync()
         {
-            return await _blogDbContext.BlogPosts.ToListAsync();
+            return await _blogDbContext.BlogPosts.Include(x => x.Tags).ToListAsync();
         }
 
         public async Task<BlogPost?> GetAsync(Guid id)
