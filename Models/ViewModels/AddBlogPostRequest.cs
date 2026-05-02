@@ -14,7 +14,7 @@ namespace Models.ViewModels
         public string Author { get; set; }
         public bool Visible { get; set; }
         public IEnumerable<SelectListItem> Tags { get; set; } //to display the tags
-        public string SelectedTag { get; set; } //to capture the selected tag from the form
+        public string[] SelectedTags { get; set; } = Array.Empty<string>(); //to capture the selected tags from the form
 
     }
 }
