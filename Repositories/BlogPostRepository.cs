@@ -38,12 +38,12 @@ namespace EchoBlog.Repositories
 
         public async Task<BlogPost?> GetAsync(Guid id)
         {
-            return await _blogDbContext.BlogPosts.FirstOrDefaultAsync(x => x.Id == id);
+            return await _blogDbContext.BlogPosts.Include(x => x.Tags).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<BlogPost?> UpdateAsync(BlogPost blogPost)
         {
-            var existingBlogPost = await _blogDbContext.BlogPosts.FirstOrDefaultAsync(x => x.Id == blogPost.Id);
+            var existingBlogPost = await _blogDbContext.BlogPosts.Include(x => x.Tags).FirstOrDefaultAsync(x => x.Id == blogPost.Id);
             if(existingBlogPost != null)
             {
                 existingBlogPost.Heading = blogPost.Heading;
@@ -55,6 +55,7 @@ namespace EchoBlog.Repositories
                 existingBlogPost.PublishedDate = blogPost.PublishedDate;
                 existingBlogPost.Author = blogPost.Author;
                 existingBlogPost.Visible = blogPost.Visible;
+                existingBlogPost.Tags = blogPost.Tags;
 
                 await _blogDbContext.SaveChangesAsync();
                 return existingBlogPost;
