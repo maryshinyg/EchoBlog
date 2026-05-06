@@ -31,7 +31,7 @@ namespace EchoBlog.Repositories
             {
                 return uploadResult.SecureUrl.ToString();
             }
-            return null;
+            return string.Empty;
         }
     }
 }
