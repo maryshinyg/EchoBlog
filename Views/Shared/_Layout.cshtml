@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<IdentityUser> SignInManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -39,9 +42,15 @@
                         </li>
                     </ul>
 
-                    <div class="d-flex">
-                        <a class="me-3 bg-light text-dark btn btn-outline-light" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                        <a class="me-3 bg-light text-dark btn btn-outline-light" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                    <div class="d-flex align-items-center">
+                        @if(SignInManager.IsSignedIn(User)){
+                            <a class="me-3 bg-light text-dark" asp-area="" asp-controller="" asp-action="">Hello - @User?.Identity?.Name</a>
+                            <a class="me-3 bg-light text-dark btn btn-outline-light" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                        }
+                        else{
+                            <a class="me-3 bg-light text-dark btn btn-outline-light" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                            <a class="me-3 bg-light text-dark btn btn-outline-light" asp-area="" asp-controller="Account" asp-action="Register">Register</a>                        
+                        }
                     </div>
                 </div>
             </div>
