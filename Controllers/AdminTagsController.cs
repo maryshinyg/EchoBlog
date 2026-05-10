@@ -1,5 +1,6 @@
 using EchoBlog.Data;
 using EchoBlog.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using System.Linq;
 
 namespace EchoBlog.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminTagsController : Controller
     {
         private readonly ITagRepository _tagRepository;

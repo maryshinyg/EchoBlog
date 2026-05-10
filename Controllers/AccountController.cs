@@ -46,9 +46,13 @@ namespace EchoBlog.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(string ReturnUrl)
         {
-            return View();
+            var model = new LoginViewModel
+            {
+                ReturnUrl = ReturnUrl
+            };
+            return View(model);
         }
 
         [HttpPost]
@@ -57,6 +61,11 @@ namespace EchoBlog.Controllers
             var signInResult = await _signInManager.PasswordSignInAsync(model.Username, model.Password, false, false);
             if(signInResult != null && signInResult.Succeeded)
             {
+                // If a local ReturnUrl was provided, redirect back to it. Otherwise go to Home.
+                if(!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
+                {
+                    return Redirect(model.ReturnUrl);
+                }
                 return RedirectToAction("Index", "Home");
             }
             //show error notification
@@ -68,6 +77,12 @@ namespace EchoBlog.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }

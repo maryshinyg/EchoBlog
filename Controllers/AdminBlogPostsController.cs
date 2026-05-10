@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Models.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Models.Domain;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EchoBlog.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminBlogPostsController : Controller
     {
         private readonly ITagRepository _tagRepository;
