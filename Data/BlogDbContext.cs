@@ -1,3 +1,4 @@
+using EchoBlog.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 using Models.Domain;
 
@@ -7,5 +8,6 @@ namespace EchoBlog.Data
     {
         public DbSet<BlogPost> BlogPosts { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<BlogPostLike> BlogPostLikes { get; set; }
     }
 }
