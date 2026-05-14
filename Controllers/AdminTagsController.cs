@@ -28,6 +28,11 @@ namespace EchoBlog.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AddTagRequest request)
         {
+            ValidateAddTagRequest(request);
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
             var newTag = new Tag
             {
                 Name = request.Name,
@@ -95,6 +100,18 @@ namespace EchoBlog.Controllers
                 // Tag not found or deletion failed
             }
             return RedirectToAction("Edit", new { id = request.Id });
+        }
+
+        //custom validations
+        private void ValidateAddTagRequest(AddTagRequest request)
+        {
+            if(request.Name != null && request.DisplayName != null)
+            {
+                if(request.Name == request.DisplayName)
+                {
+                    ModelState.AddModelError("DisplayName", "Display name cannot be the same as Name");
+                }
+            }
         }
     }
 }

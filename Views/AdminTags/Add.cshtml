@@ -10,11 +10,13 @@
     <form method="post">
         <div class="mb-3">
             <label for="TagName" class="form-label">Tag Name</label>
-            <input type="text" class="form-control" id="TagName" asp-for="Name" />
+            <input type="text" class="form-control" id="TagName" asp-for="Name" required />
+            <span class="text-danger" asp-validation-for="Name"></span>
         </div>
         <div class="mb-3">
             <label for="DisplayName" class="form-label">Display Name</label>
-            <input type="text" class="form-control" id="DisplayName" asp-for="DisplayName" />
+            <input type="text" class="form-control" id="DisplayName" asp-for="DisplayName" required />
+            <span class="text-danger" asp-validation-for="DisplayName"></span>
         </div>
         
         <div class="mb-3">

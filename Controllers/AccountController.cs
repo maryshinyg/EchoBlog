@@ -25,20 +25,23 @@ namespace EchoBlog.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            var identityUser = new IdentityUser
+            if (ModelState.IsValid)
             {
-                UserName = model.Username,
-                Email = model.Email
-            };
-            var identityResult = await _userManager.CreateAsync(identityUser, model.Password);
-            if (identityResult.Succeeded)
-            {
-                //assign this user to "user" role
-                var roleIdentityResult = await _userManager.AddToRoleAsync(identityUser, "user");
-                if (roleIdentityResult.Succeeded)
+                var identityUser = new IdentityUser
                 {
-                    //show success notification
-                    return RedirectToAction("Register");
+                    UserName = model.Username,
+                    Email = model.Email
+                };
+                var identityResult = await _userManager.CreateAsync(identityUser, model.Password);
+                if (identityResult.Succeeded)
+                {
+                    //assign this user to "user" role
+                    var roleIdentityResult = await _userManager.AddToRoleAsync(identityUser, "user");
+                    if (roleIdentityResult.Succeeded)
+                    {
+                        //show success notification
+                        return RedirectToAction("Register");
+                    }
                 }
             }
             //show error notification
@@ -58,6 +61,10 @@ namespace EchoBlog.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
             var signInResult = await _signInManager.PasswordSignInAsync(model.Username, model.Password, false, false);
             if(signInResult != null && signInResult.Succeeded)
             {
