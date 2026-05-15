@@ -4,7 +4,7 @@ namespace EchoBlog.Repositories
 {
     public interface ITagRepository
     {
-        Task<IEnumerable<Tag>> GetAllAsync(string? searchQuery = null, string? sortBy = null, string? sortDirection = null);
+        Task<IEnumerable<Tag>> GetAllAsync(string? searchQuery = null, string? sortBy = null, string? sortDirection = null, int pageSize = 100, int pageNumber = 1);
 
         Task<Tag?> GetAsync(Guid id);
 
@@ -13,5 +13,7 @@ namespace EchoBlog.Repositories
         Task<Tag?> UpdateAsync(Tag tag);
 
         Task<Tag?> DeleteAsync(Guid id);
+
+        Task<int> CountAsync();
     }
 }
