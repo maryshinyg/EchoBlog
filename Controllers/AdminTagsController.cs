@@ -43,9 +43,12 @@ namespace EchoBlog.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> List(string? searchQuery)
+        public async Task<IActionResult> List(string? searchQuery, string? sortBy, string? sortDirection)
         {
-            var list = await _tagRepository.GetAllAsync(searchQuery);
+            ViewBag.SearchQuery = searchQuery;
+            ViewBag.SortBy = sortBy;
+            ViewBag.SortDirection = sortDirection;
+            var list = await _tagRepository.GetAllAsync(searchQuery, sortBy, sortDirection);
             return View(list);
         }
 
