@@ -27,8 +27,9 @@ EchoBlog is a full-stack ASP.NET Core MVC blogging application built with .NET 1
 
 ### Authentication and authorization
 - ASP.NET Core Identity for user management
-- Role-based access control (`Admin` only for admin controllers)
-- Registration flow assigns new users to the `user` role
+- Role-based access control with three roles: `SuperAdmin`, `Admin`, and `User`
+- `User` is assigned automatically during registration
+- `Admin` and `SuperAdmin` roles are used to control access to admin panels and elevated management features
 - Login, logout, access denied handling
 
 ### Admin management
