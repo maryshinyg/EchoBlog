@@ -43,9 +43,9 @@ namespace EchoBlog.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(string? searchQuery)
         {
-            var list = await _tagRepository.GetAllAsync();
+            var list = await _tagRepository.GetAllAsync(searchQuery);
             return View(list);
         }
 

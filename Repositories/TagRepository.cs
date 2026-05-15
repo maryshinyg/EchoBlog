@@ -20,9 +20,21 @@ namespace EchoBlog.Repositories
             return tag;
         }
 
-        public async Task<IEnumerable<Tag>> GetAllAsync()
+        public async Task<IEnumerable<Tag>> GetAllAsync(string? searchQuery)
         {
-            return await _blogDbContext.Tags.ToListAsync();
+            var query = _blogDbContext.Tags.AsQueryable();
+
+            //filtering
+            if(string.IsNullOrWhiteSpace(searchQuery) == false)
+            {
+                query = query.Where(x => x.Name.Contains(searchQuery) || x.DisplayName.Contains(searchQuery));
+            }
+            //sorting
+
+            //pagination
+
+            return await query.ToListAsync();
+            //return await _blogDbContext.Tags.ToListAsync();
         }
 
         public async Task<Tag?> DeleteAsync(Guid id)
